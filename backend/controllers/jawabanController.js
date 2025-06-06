@@ -60,10 +60,10 @@ exports.updateJawaban = async (req, res) => {
       return res.status(404).json({ status: 'error', message: 'Jawaban not found' })
     }
 
-    const { id_user, id_tugas } = req.body
+    const { id_user, id_tugas,nilai } = req.body
     const file = req.file?.buffer || jawaban.file
 
-    await jawaban.update({ id_user, id_tugas, file })
+    await jawaban.update({ id_user, id_tugas, file, nilai })
     res.json({ status: 'ok', data: jawaban })
   } catch (err) {
     res.status(500).json({ status: 'error', message: err.message })

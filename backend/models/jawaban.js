@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     },
      id_user: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+     id_user: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
      id_tugas: {
