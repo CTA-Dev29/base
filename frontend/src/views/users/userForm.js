@@ -50,6 +50,8 @@ const FormUser = () => {
           const user = res.data.data
           setValue('username', user.username)
           setValue('nowa', user.nowa || '') // set nowa di form
+          setValue('nama', user.nama || '')
+          setValue('nim', user.nim || '')
           if (user.avatar) {
             const url = avatarBufferToUrl(user.avatar)
             setAvatarPreview(url)
@@ -81,6 +83,8 @@ const FormUser = () => {
     formData.append('nowa', data.nowa) // kirim nowa ke backend
     formData.append('email', data.email)
     formData.append('role', data.role)
+    formData.append('nama', data.nama)
+    formData.append('nim', data.nim)
 
     if (!isEdit || (isEdit && data.password)) {
       formData.append('password', data.password)
@@ -137,6 +141,35 @@ const FormUser = () => {
             <CFormLabel>Username</CFormLabel>
             <CFormInput {...register('username', { required: true })} />
             {errors.username && <div className="text-danger">Username wajib diisi</div>}
+          </div>
+          {/* Nama */}
+          <div className="mb-3">
+            <CFormLabel>Nama Lengkap</CFormLabel>
+            <CFormInput
+              type="text"
+              {...register('nama', { required: true })}
+            />
+            {errors.nama && (
+              <div className="text-danger">Nama wajib diisi</div>
+            )}
+          </div>
+
+          {/* NIM */}
+          <div className="mb-3">
+            <CFormLabel>NIM</CFormLabel>
+            <CFormInput
+              type="text"
+              {...register('nim', {
+                required: true,
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: 'NIM hanya boleh berisi angka',
+                },
+              })}
+            />
+            {errors.nim && (
+              <div className="text-danger">{errors.nim.message || 'NIM wajib diisi'}</div>
+            )}
           </div>
 
           {/* Nomor WhatsApp */}

@@ -9,9 +9,10 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024, // max 5MB
   },
   fileFilter: (req, file, cb) => {
-    // Hanya terima gambar
-    if (!file.mimetype.startsWith("image/")) {
-      return cb(new Error("Only image files are allowed!"), false);
+    // Terima file gambar atau PDF
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error("Only image files or PDF are allowed!"), false);
     }
     cb(null, true);
   },

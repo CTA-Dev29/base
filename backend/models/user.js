@@ -6,6 +6,14 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
     },
+    nama: {
+      type: DataTypes.STRING,
+      defaultValue: "user",
+    },
+    nim: {
+      type: DataTypes.STRING,
+      defaultValue: "0000",
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

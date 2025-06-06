@@ -57,10 +57,13 @@ const user = () => {
 
   // Handle search term filter
   const filteredData = data.filter(
-    (item) =>
-      item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.divisis?.nama.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  (item) =>
+    item.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.nama?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.nim?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.nowa?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.divisis?.nama?.toLowerCase().includes(searchTerm.toLowerCase())
+)
 
   // Pagination calculations
   const indexOfLastItem = currentPage * itemsPerPage
@@ -134,8 +137,11 @@ const user = () => {
             <CTableRow>
               <CTableHeaderCell>No.</CTableHeaderCell>
               <CTableHeaderCell>Gambar</CTableHeaderCell>
-              <CTableHeaderCell>Nama</CTableHeaderCell>
+              <CTableHeaderCell>Nama Pengguna</CTableHeaderCell>
+              <CTableHeaderCell>Nama Lengkap</CTableHeaderCell>
+              <CTableHeaderCell>NIM</CTableHeaderCell>
               <CTableHeaderCell>No WhatsApp</CTableHeaderCell>
+
               <CTableHeaderCell>Action</CTableHeaderCell>
             </CTableRow>
           </CTableHead>
@@ -158,8 +164,10 @@ const user = () => {
                     'No Image'
                   )}
                 </CTableDataCell>
-                <CTableDataCell>{item.username}</CTableDataCell>
-                <CTableDataCell>{item.nowa}</CTableDataCell>
+              <CTableDataCell>{item.username}</CTableDataCell>
+              <CTableDataCell>{item.nama || '-'}</CTableDataCell>
+              <CTableDataCell>{item.nim || '-'}</CTableDataCell>
+              <CTableDataCell>{item.nowa}</CTableDataCell>
               
                 <CTableDataCell>
                   {/* Edit and Delete buttons */}

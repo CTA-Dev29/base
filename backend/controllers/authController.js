@@ -4,12 +4,11 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
-    const { username, password, nowa } = req.body;  // terima nowa
+    const { username, password, nowa, nama, nim } = req.body;
 
     if (!username || !password)
       return res.status(400).json({ status: 'error', message: "username & password required" });
 
-    // opsional: cek nomor WA sudah dipakai atau belum
     if (nowa) {
       const existNowa = await User.findOne({ where: { nowa } });
       if (existNowa) return res.status(409).json({ status: 'error', message: "Nomor WhatsApp sudah terdaftar" });
@@ -25,10 +24,15 @@ exports.register = async (req, res) => {
       username,
       password: hashedPassword,
       avatar,
-      nowa, // simpan nowa
+      nowa,
+      nama,
+      nim,
     });
 
-    res.status(201).json({ status: 'ok', data: { id: user.id, username: user.username, nowa: user.nowa } });
+    res.status(201).json({
+      status: 'ok',
+      data: { id: user.id, username: user.username, nowa: user.nowa, nama: user.nama, nim: user.nim }
+    });
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message });
   }
@@ -52,7 +56,7 @@ exports.login = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ status: 'ok', data: { id: user.id, username: user.username, token } });
+    res.status(200).json({ status: 'ok', data: { id: user.id, username: user.username,nama: user.nama,nim: user.nim,role: user.role, token } });
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message });
   }
@@ -83,7 +87,7 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { username, password, nowa } = req.body;  // terima nowa
+    const { username, password, nowa, nama, nim } = req.body;
     const avatar = req.file ? req.file.buffer : null;
 
     const user = await User.findByPk(req.params.id);
@@ -102,15 +106,21 @@ exports.updateUser = async (req, res) => {
     await user.update({
       username: username || user.username,
       password: hashedPassword,
-      nowa: nowa || user.nowa,  // update nowa
+      nowa: nowa || user.nowa,
+      nama: nama || user.nama,
+      nim: nim || user.nim,
       ...(avatar && { avatar }),
     });
 
-    res.status(200).json({ status: 'ok', data: { id: user.id, username: user.username, nowa: user.nowa } });
+    res.status(200).json({
+      status: 'ok',
+      data: { id: user.id, username: user.username, nowa: user.nowa, nama: user.nama, nim: user.nim }
+    });
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message });
   }
 };
+
 
 exports.deleteUser = async (req, res) => {
   try {
